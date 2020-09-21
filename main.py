@@ -1,6 +1,4 @@
 
-from datetime import datetime, date, time, timedelta
-from collections import Counter
 from tweepy import OAuthHandler
 from tweepy import API
 from tweepy import Cursor
@@ -10,6 +8,8 @@ import os
 import random
 import requests
 import json
+from datetime import datetime, date, time
+
 
 consumer_key=os.environ['CONSUMER_KEY']
 consumer_secret=os.environ['CONSUMER_SECRET']
@@ -23,12 +23,15 @@ auth_api = API(auth)
 
 app = flask.Flask(__name__)
 
+foods = ["Macaroni", "Eggs Benedict", "Chicken Tikka Masala", "Spicy Noodles", "Cake Mug", "Tomato Soup", "Grilled Cheese"]
+
 # From Twitter example code: https://github.com/twitterdev/Twitter-API-v2-sample-code/blob/master/Recent-Search/recent_search.py
-def create_url():
-    query = "from:twitterdev -is:retweet"
-    tweet_fields = "tweet.fields=author_id"
-    url = "https://api.twitter.com/2/tweets/search/recent?query={}&{}".format(
-        query, tweet_fields
+def create_url(rand_food):
+    query = rand_food
+    tweet_fields = "created_at,lang"
+    user_fields = "username"
+    url = "https://api.twitter.com/2/tweets/search/recent?expansions=author_id&query={}&tweet.fields={}&user.fields={}".format(
+        query, tweet_fields, user_fields
     )
     return url
 
@@ -41,10 +44,18 @@ def connect_to_endpoint(url, headers):
     return response.json()
     
 
-url = create_url()
+url = create_url(foods[random.randint(0,6)])
 headers = {"Authorization": "Bearer {}".format(bearer_token)}
 json_response = connect_to_endpoint(url, headers)
-print(json.dumps(json_response, indent=4, sort_keys=True))
+tweets = json.dumps(json_response, indent=4, sort_keys=True)
+rand_tweet = random.randint(0,3)
+tweet_data = (json_response["data"][rand_tweet])
+tweet_user = (json_response["includes"]["users"][rand_tweet])
+tweet_text = tweet_data["text"]
+tweet_datetime = datetime.strptime(tweet_data["created_at"], '%Y-%m-%dT%H:%M:%S.000Z')
+print("Tweet:" + tweet_text)
+print("Author: " +tweet_user["name"])
+print("date: " + str(tweet_datetime))
 
 @app.route('/') #python decorator
 def index():
