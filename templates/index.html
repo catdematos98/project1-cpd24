@@ -1,6 +1,44 @@
 <html>
-    <head />
+    <head>
+      <link rel="stylesheet" href="static/styles.css">
+      <style type="text/css">
+          .tweetContainer{
+            background-color: white;
+            margin: 16px;
+            padding: 16px;
+            border-radius: 8px;
+        }
+        .tweetText{
+            font-size: 28px;
+        }
+        .tweetDate{
+            font-size: 13px;
+        }
+        .twitterLogo{
+            height: 40px;
+            width: 40px;
+            float: right;
+        }
+        .twitterUser{
+            font-size: 15px;
+            margin-top: 0px;
+        }
+        .twitterName{
+           font-size: 15px;
+           font-weight: bold;
+        }
+      </style>
+    </head>
     <body>
-        <h1> HELLO WORLD! {{random_number}}</h1>
+        <h1> {{food}}</h1>
+            
+        <div class="tweetContainer">
+            <img class="twitterLogo" src="static/Twitter_Logo_Blue.png"></img>
+            <p class="twitterName"> {{tweetName}} </p>
+            <p class="twitterUser"> {{tweetUser}} </p>
+            <p class="tweetText"> {{tweetText}} </p>
+            <p class="tweetDate"> {{tweetDatetime}} </p>
+        </div>
+
     </body>
 </html>

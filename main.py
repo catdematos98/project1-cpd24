@@ -29,7 +29,7 @@ foods = ["Macaroni", "Eggs Benedict", "Chicken Tikka Masala", "Spicy Noodles", "
 def create_url(rand_food):
     query = rand_food
     tweet_fields = "created_at,lang"
-    user_fields = "username"
+    user_fields = "username,name"
     url = "https://api.twitter.com/2/tweets/search/recent?expansions=author_id&query={}&tweet.fields={}&user.fields={}".format(
         query, tweet_fields, user_fields
     )
@@ -44,25 +44,31 @@ def connect_to_endpoint(url, headers):
     return response.json()
     
 
-url = create_url(foods[random.randint(0,6)])
-headers = {"Authorization": "Bearer {}".format(bearer_token)}
-json_response = connect_to_endpoint(url, headers)
-tweets = json.dumps(json_response, indent=4, sort_keys=True)
-rand_tweet = random.randint(0,3)
-tweet_data = (json_response["data"][rand_tweet])
-tweet_user = (json_response["includes"]["users"][rand_tweet])
-tweet_text = tweet_data["text"]
-tweet_datetime = datetime.strptime(tweet_data["created_at"], '%Y-%m-%dT%H:%M:%S.000Z')
-print("Tweet:" + tweet_text)
-print("Author: " +tweet_user["name"])
-print("date: " + str(tweet_datetime))
 
 @app.route('/') #python decorator
 def index():
-    num = random.randint(1, 20)
+    #search tweets for random food 
+    food = foods[random.randint(0,6)]
+    url = create_url(food)
+    headers = {"Authorization": "Bearer {}".format(bearer_token)}
+    json_response = connect_to_endpoint(url, headers)
+    tweets = json.dumps(json_response, indent=4, sort_keys=True)
+    
+    #parse random tweet for text, author, and date/time
+    rand_tweet = random.randint(0,3)
+    tweet_data = (json_response["data"][rand_tweet])
+    tweet_user = (json_response["includes"]["users"][rand_tweet]["username"])
+    tweet_name = (json_response["includes"]["users"][rand_tweet]["name"])
+    tweet_text = tweet_data["text"]
+    tweet_datetime = datetime.strptime(tweet_data["created_at"], '%Y-%m-%dT%H:%M:%S.000Z')
+    
     return flask.render_template(
         "index.html",
-        random_number = num 
+        food = food,
+        tweetText = tweet_text,
+        tweetUser = "@"+tweet_user,
+        tweetName = tweet_name,
+        tweetDatetime = tweet_datetime
         )
     
 app.run(
