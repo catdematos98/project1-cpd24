@@ -28,10 +28,19 @@
            font-weight: bold;
         }
       </style>
+      
     </head>
     <body>
-        <h1> {{food}}</h1>
-            
+        <h1>{{recipe["title"]}}</h1>
+        We got this recipe from <a href={{recipe_info["sourceUrl"]}}> {{recipe_info["creditsText"]}}</a>
+        <img src={{recipe_info["image"]}} />
+        <p>Servings: {{recipe_info["servings"]}}</p>
+        <p>Ready in {{recipe_info["readyInMinutes"]}} minutes.</p>
+        
+        {%for i in range(0, ingredients_len)%} 
+            <li>{{ingredients[i]["original"]}} </li> 
+        {%endfor%} 
+        
         <div class="tweetContainer">
             <img class="twitterLogo" src="static/Twitter_Logo_Blue.png"></img>
             <p class="twitterName"> {{tweetName}} </p>

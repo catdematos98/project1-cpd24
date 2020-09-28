@@ -44,6 +44,13 @@ def create_spoon_url(rand_food):
     url = "https://api.spoonacular.com/recipes/complexSearch?apiKey={}&query={}".format(spoonacular_key, query)
     return url
 
+def getRecipeInfo(recipe_id):
+    url = "https://api.spoonacular.com/recipes/{}/information?apiKey={}".format(recipe_id, spoonacular_key)
+    headers = {}
+    response = connect_to_endpoint(url, headers)
+    return response
+
+
 # From Twitter example code: https://github.com/twitterdev/Twitter-API-v2-sample-code/blob/master/Recent-Search/recent_search.py
 def connect_to_endpoint(url, headers):
     response = requests.request("GET", url, headers=headers)
@@ -76,10 +83,17 @@ def index():
     headers = {}
     json_response = connect_to_endpoint(spoon_url, headers)
     
-    num_recipes = json_response["totalResults"]
-    rand_recipe = random.randint(0, num_recipes)
+    num_recipes = json_response["totalResults"] if json_response["totalResults"] < 10 else json_response["number"]
+    print(num_recipes)
+    print(json_response)
+    rand_recipe = random.randint(1, num_recipes-1)
     recipe = json_response["results"][rand_recipe]
-    
+    recipe_id = recipe["id"]
+    recipe_info = getRecipeInfo(recipe_id)
+    print(recipe_info)
+
+    ingredients = recipe_info["extendedIngredients"]
+    ingredients_len = len(ingredients)
 
     
     return flask.render_template(
@@ -89,7 +103,10 @@ def index():
         tweetUser = "@"+tweet_user,
         tweetName = tweet_name,
         tweetDatetime = tweet_datetime,
-        recipe = recipe
+        recipe = recipe,
+        recipe_info = recipe_info,
+        ingredients = ingredients,
+        ingredients_len = ingredients_len
     )
     
 app.run(
