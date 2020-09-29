@@ -22,11 +22,11 @@
 7. If on Cloud9, preview templates/index.html. This should successfully render the HTML!
 #### Run on Heroku
 8. Sign up for heroku at heroku.com 
-9. Install heroku by running npm install -g heroku
+9. Install heroku by running `npm install -g heroku`
 10. Go through the following steps:
-    heroku login -i
-    heroku create
-    git push heroku master
+    `heroku login -i`
+    `heroku create`
+    `git push heroku master`
 11. Navigate to your newly-created heroku site!
 12. Add your secret keys (from tweepy.env) by going to https://dashboard.heroku.com/apps
     and clicking into your app. Click on Settings, then scroll to "Config Vars." Click
@@ -39,7 +39,7 @@
     BEARER_TOKEN
 13. Configure requirements.txt with all requirements needed to run your app.
 14. Configure Procfile with the command needed to run your app.
-15. If you are still having issues, you may use heroku logs --tail to see what's wrong.
+15. If you are still having issues, you may use `heroku logs --tail` to see what's wrong.
 
 ## Problems
 1. Parsing the date/time from the twitter json caused some confusion simply because I was unfamiliar of the format returned. A sample date/time returned from a tweet is: 2020-07-06T04:11:35.000Z. There wasn't any documentation for what the .000Z was. After a quick google search determined it was the [milliseconds and timezone](https://stackoverflow.com/questions/16151383/what-does-the-000z-of-yyyy-mm-ddt000000-000z-mean#:~:text=73,and%20Z%20indicates%20UTC%20timezone.). If I had more time, I would make the date and time of the tweet look better
