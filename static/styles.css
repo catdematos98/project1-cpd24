@@ -1,0 +1,51 @@
+
+          .tweetContainer{
+            background-color: white;
+            margin: 16px;
+            padding: 16px;
+            border-radius: 8px;
+        }
+        .tweetText{
+            font-size: 48px;
+        }
+        .tweetDate{
+            font-size: 25px;
+        }
+        .twitterLogo{
+            height: 50px;
+            width: 50px;
+            float: right;
+        }
+        .twitterUser{
+            font-size: 35px;
+            margin-top: 0px;
+        }
+        .twitterName{
+           font-size: 35px;
+           font-weight: bold;
+        }
+        .header{
+            padding: 40px;
+            text-align: center;
+            background: #2F4F4F ;
+            color: white;
+            font-size: 30px;
+        }
+        img {
+            max-width: 60%;
+            height: auto;
+            float: right;
+        }
+        .recipeContainer{
+            overflow: auto;
+            padding:15px;
+        }
+        li{
+            font-size: 35px;
+            margin:35px;
+        }
+        p{
+            font-size: 35px;
+            margin:35px;
+
+        }
