@@ -25,8 +25,6 @@ auth_api = API(auth)
 
 app = flask.Flask(__name__)
 
-foods = ["Macaroni", "Eggs Benedict", "Chicken Tikka Masala", "Spicy Noodles", "Cake Mug", "Tomato Soup", "Grilled Cheese"]
-
 # From Twitter example code: https://github.com/twitterdev/Twitter-API-v2-sample-code/blob/master/Recent-Search/recent_search.py
 def create_twitter_url(rand_food):
     query = rand_food
@@ -63,6 +61,7 @@ def connect_to_endpoint(url, headers):
 
 @app.route('/') #python decorator
 def index():
+    foods = ["Macaroni", "Eggs Benedict", "Chicken Tikka Masala", "Spicy Noodles", "Cake Mug", "Tomato Soup", "Grilled Cheese"]
     #search tweets for random food 
     food = foods[random.randint(0,6)]
     
